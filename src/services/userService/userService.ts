@@ -1,7 +1,7 @@
 import { injectable } from 'inversify';
 import User from '../../models/user/userModel/userModel';
 import UserServiceInterface from './userServiceInterface';
-import { prismaClient } from 'src/database/prismaClient';
+import { prismaClient } from '../../database/prismaClient';
 
 @injectable()
 class UserService implements UserServiceInterface {
@@ -12,7 +12,7 @@ class UserService implements UserServiceInterface {
   }
 
   public async addUsers(userAdd: any): Promise<User> {
-    const { email, username, name } = userAdd;
+    const { email, username, name, password } = userAdd;
 
     const verifyIfExistsUser = await prismaClient.user.findFirst({
       where: {
@@ -30,6 +30,7 @@ class UserService implements UserServiceInterface {
         email,
         username,
         name,
+        password,
       },
     });
 

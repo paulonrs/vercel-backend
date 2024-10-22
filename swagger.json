@@ -60,6 +60,12 @@
             "type": "string",
             "description": "Nome do paciente",
             "example": "John Doe"
+          },
+
+          "passwird": {
+            "type": "string",
+            "description": "Senha do paciente",
+            "example": "123456"
           }
         }
       }
