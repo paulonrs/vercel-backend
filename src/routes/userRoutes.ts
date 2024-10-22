@@ -6,5 +6,6 @@ const router = express.Router();
 const userController = container.resolve(UserController);
 
 router.get('/', userController.getAllUsers);
+router.post('/', userController.addUsers);
 
 export default router;

@@ -21,6 +21,15 @@ class UserController extends BaseController implements UserControllerInterface {
       res.status(400).send({ message: error.message });
     }
   };
+
+  addUsers = async (req: Request, res: Response) => {
+    try {
+      const users = await this.userService.addUsers(req.body);
+      res.send(users);
+    } catch (error: any) {
+      res.status(400).send({ message: error.message });
+    }
+  };
 }
 
 export default UserController;
