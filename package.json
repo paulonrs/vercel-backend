@@ -6,8 +6,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "npx nodemon src/server.ts",
     "startdev": "ts-node src/server.ts",
-    "build": "tsc",
-    "vercel-build": "npx prisma migrate deploy"
+    "build": "prisma generate && tsc",
+    "vercel-build": "prisma generate && npx prisma migrate deploy"
   },
   "keywords": [],
   "author": "",
