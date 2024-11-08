@@ -2,6 +2,7 @@ import { injectable } from 'inversify';
 import User from '../../models/user/userModel/userModel';
 import UserServiceInterface from './userServiceInterface';
 import { prismaClient } from '../../database/prismaClient';
+import PaginationResponse from '@/models/Response/PaginationResponseModel';
 
 @injectable()
 class UserService implements UserServiceInterface {
@@ -9,6 +10,25 @@ class UserService implements UserServiceInterface {
     const users = await prismaClient.user.findMany();
 
     return users;
+  }
+
+  async getUsersWithPagination(
+    page: number,
+    limit: number,
+  ): Promise<PaginationResponse<User>> {
+    const users = await prismaClient.user.findMany({
+      skip: page * limit - limit,
+      take: limit,
+    });
+
+    const totalUsers = await prismaClient.user.count();
+
+    const paginationResponse: PaginationResponse<User> = {
+      data: users,
+      total: totalUsers,
+    };
+
+    return paginationResponse;
   }
 
   public async addUsers(userAdd: any): Promise<User> {
@@ -35,6 +55,66 @@ class UserService implements UserServiceInterface {
     });
 
     return userCreated;
+  }
+
+  async editUser(userEdit: any): Promise<User> {
+    const { id, email, username, name, password } = userEdit;
+
+    const verifyIfExistsUser = await prismaClient.user.findUnique({
+      where: { id },
+    });
+
+    if (verifyIfExistsUser) Error('User already not exists');
+
+    const updatedUser = await prismaClient.user.update({
+      where: { id },
+      data: {
+        email,
+        username,
+        name,
+        password,
+      },
+    });
+
+    return updatedUser;
+  }
+
+  async inactive(userEdit: any): Promise<User> {
+    const { id } = userEdit;
+
+    const verifyIfExistsUser = await prismaClient.user.findUnique({
+      where: { id },
+    });
+
+    if (verifyIfExistsUser) Error('User already not exists');
+
+    const updatedUser = await prismaClient.user.update({
+      where: { id },
+      data: {
+        id,
+      },
+    });
+
+    return updatedUser;
+  }
+
+  async active(userEdit: any): Promise<User> {
+    const { id } = userEdit;
+
+    const verifyIfExistsUser = await prismaClient.user.findUnique({
+      where: { id },
+    });
+
+    if (verifyIfExistsUser) Error('User already not exists');
+
+    const updatedUser = await prismaClient.user.update({
+      where: { id },
+      data: {
+        id,
+      },
+    });
+
+    return updatedUser;
   }
 }
 

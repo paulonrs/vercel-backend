@@ -62,7 +62,7 @@
             "example": "John Doe"
           },
 
-          "passwird": {
+          "password": {
             "type": "string",
             "description": "Senha do paciente",
             "example": "123456"

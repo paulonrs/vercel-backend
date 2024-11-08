@@ -10,4 +10,16 @@ export abstract class BaseController {
   protected handleError(res: Response, error: any) {
     res.status(500).json({ error: error.message || 'Internal Server Error' });
   }
+
+  protected buildApiResponse = (
+    data: any,
+    message: string = 'OK',
+    total: number,
+  ) => {
+    return {
+      data,
+      message,
+      total: total,
+    };
+  };
 }
