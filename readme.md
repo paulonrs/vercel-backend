@@ -15,7 +15,7 @@ Este é um projeto backend utilizando Node.js com TypeScript. O projeto segue um
 
 Antes de começar, certifique-se de ter o seguinte instalado na sua máquina:
 
-- [Node.js](https://nodejs.org/en/) (versão 18 ou superior)
+- [Node.js](https://nodejs.org/en/) (versão 20 ou superior)
 - [Yarn](https://yarnpkg.com/) ou [npm](https://www.npmjs.com/)
 
 ## Instalação
