@@ -1,27 +1,39 @@
 import { injectable, inject } from 'inversify';
-import UserService from '@/services/userService/userService';
-import UserServiceInterface from '@/services/userService/userServiceInterface';
+import UserService from '@/services/user/userService';
+import UserServiceInterface from '@/services/user/userServiceInterface';
 import UserBusinessInterface from './userBusinessInterface';
-import User from '@/models/user/userModel/userModel';
+import User from '@/models/user/user/userModel';
 
 @injectable()
 class UserBusiness implements UserBusinessInterface {
   constructor(@inject(UserService) private userService: UserServiceInterface) {}
-  getUsersWithPagination(page: number, limit: number): Promise<any> {
-    return this.userService.getUsersWithPagination(page, limit);
+  findAllWithPagination(
+    page: number,
+    limit: number,
+    search: string,
+  ): Promise<any> {
+    return this.userService.findAllWithPagination(page, limit, search);
   }
-  addUser(user: User): Promise<any> {
+  addUser(user: User): Promise<Partial<User>> {
     return this.userService.addUsers(user);
   }
 
-  editUser(user: any): Promise<any> {
+  editUser(user: Partial<User>): Promise<Partial<User>> {
     return this.userService.editUser(user);
   }
-  inactive(user: any): Promise<any> {
-    return this.userService.inactive(user);
+
+  inactive(userId: string): Promise<Partial<User>> {
+    if (!userId) {
+      throw new Error('User ID is required');
+    }
+    return this.userService.inactive(userId);
   }
-  active(user: any): Promise<any> {
-    return this.userService.active(user);
+
+  active(userId: string): Promise<Partial<User>> {
+    if (!userId) {
+      throw new Error('User ID is required');
+    }
+    return this.userService.active(userId);
   }
 }
 

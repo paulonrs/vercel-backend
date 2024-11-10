@@ -19,10 +19,12 @@ class UserController extends BaseController implements UserControllerInterface {
     try {
       const limit = parseInt(req.query.limit as string) || 10;
       const page = parseInt(req.query.page as string) || 1;
+      const search = (req.query.search as string) || '';
 
-      const { data, total } = await this.userBusiness.getUsersWithPagination(
+      const { data, total } = await this.userBusiness.findAllWithPagination(
         page,
         limit,
+        search,
       );
 
       const response = this.buildApiResponse(

@@ -1,11 +1,15 @@
-import User from '@/models/user/userModel/userModel';
+import User from '@/models/user/user/userModel';
 
 interface UserBusinessInterface {
-  getUsersWithPagination(page: number, limit: number): Promise<any>;
+  findAllWithPagination(
+    page: number,
+    limit: number,
+    search: string,
+  ): Promise<any>;
   addUser(user: User): Promise<any>;
   editUser(user: User): Promise<any>;
-  inactive(user: User): Promise<any>;
-  active(user: User): Promise<any>;
+  inactive(userId: string): Promise<any>;
+  active(userId: string): Promise<any>;
 }
 
 export default UserBusinessInterface;
