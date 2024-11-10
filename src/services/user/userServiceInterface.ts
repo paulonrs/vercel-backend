@@ -1,11 +1,10 @@
-import PaginationResponse from '@/models/Response/PaginationResponseModel';
+import PaginationResponse from '@/models/response/paginationResponseModel';
 import User from '../../models/user/user/userModel';
+import PaginationModel from '@/models/pagination/paginationModel';
 
 interface UserServiceInterface {
   findAllWithPagination(
-    page: number,
-    limit: number,
-    search: string,
+    paginationModel: PaginationModel,
   ): Promise<PaginationResponse<User>>;
   addUsers(userAdd: Partial<User>): Promise<User>;
   editUser(userEdit: Partial<User>): Promise<User>;

@@ -6,7 +6,9 @@ import UserServiceInterface from '@/services/user/userServiceInterface';
 import UserBusinessInterface from '@/business/user/userBusinessInterface';
 import UserControllerInterface from '@/controllers/user/userControllerInterface';
 import UserRepositoryInterface from '@/repository/user/userRepositoryInterface';
-import PrismaUserRepository from '@/repository/user/PrismaUserRepository';
+import PrismaUserRepository from '@/repository/user/prismaUserRepository';
+import AuthMiddleware from '@/middleware/authMiddleware';
+import AuthenticationProvider from '@/providers/authentication/authenticationProvider';
 
 export class DiContainer {
   private container: Container;
@@ -36,5 +38,11 @@ export class DiContainer {
     this.container
       .bind<UserRepositoryInterface>('UserRepositoryInterface')
       .to(PrismaUserRepository);
+
+    this.container.bind<AuthMiddleware>('AuthMiddleware').to(AuthMiddleware);
+
+    this.container
+      .bind<AuthenticationProvider>('AuthenticationProvider')
+      .to(AuthenticationProvider);
   }
 }

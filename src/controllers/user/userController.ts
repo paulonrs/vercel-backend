@@ -6,6 +6,7 @@ import UserControllerInterface from './userControllerInterface';
 import UserBusinessInterface from '@/business/user/userBusinessInterface';
 import UserBusiness from '@/business/user/userBusiness';
 import { returnStatus } from '@/helpers/api_retorn';
+import AuthMiddleware from '@/middleware/authMiddleware';
 
 @injectable()
 class UserController extends BaseController implements UserControllerInterface {
@@ -22,11 +23,11 @@ class UserController extends BaseController implements UserControllerInterface {
       const page = parseInt(req.query.page as string) || 1;
       const search = (req.query.search as string) || '';
 
-      const { data, total } = await this.userBusiness.findAllWithPagination(
+      const { data, total } = await this.userBusiness.findAllWithPagination({
         page,
         limit,
         search,
-      );
+      });
 
       const response = this.buildApiResponse(
         data,

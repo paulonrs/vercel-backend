@@ -1,5 +1,6 @@
 import { Prisma } from '@prisma/client/edge';
 import User from '../../models/user/user/userModel';
+import PaginationModel from '@/models/pagination/paginationModel';
 
 interface UserRepositoryInterface {
   findAll(): Promise<User[]>;
@@ -8,11 +9,8 @@ interface UserRepositoryInterface {
   create(data: Prisma.UserCreateInput): Promise<User>;
   update(id: string, data: Partial<User>): Promise<User>;
   count(): Promise<number>;
-  findAllWithPagination(
-    page: number,
-    limit: number,
-    search: string,
-  ): Promise<User[]>;
+  findAllWithPagination(paginationModel: PaginationModel): Promise<User[]>;
+  getByModel(data: Partial<User>): Promise<User | null>;
 }
 
 export default UserRepositoryInterface;

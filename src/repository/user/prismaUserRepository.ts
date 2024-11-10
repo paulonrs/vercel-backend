@@ -3,6 +3,7 @@ import { prismaClient } from '../../database/prismaClient';
 import User from '../../models/user/user/userModel';
 import UserRepositoryInterface from './userRepositoryInterface';
 import { injectable } from 'inversify';
+import PaginationModel from '@/models/pagination/paginationModel';
 
 @injectable()
 class PrismaUserRepository implements UserRepositoryInterface {
@@ -10,16 +11,16 @@ class PrismaUserRepository implements UserRepositoryInterface {
     return await prismaClient.user.findMany();
   }
 
-  findAllWithPagination(
-    page: number,
-    limit: number,
-    search: string = '',
-  ): Promise<User[]> {
+  findAllWithPagination(paginationModel: PaginationModel): Promise<User[]> {
     return prismaClient.user.findMany({
-      skip: page * limit - limit,
-      take: limit,
+      skip:
+        paginationModel.page * paginationModel.limit - paginationModel.limit,
+      take: paginationModel.limit,
       where: {
-        OR: [{ name: { contains: search } }, { email: { contains: search } }],
+        OR: [
+          { name: { contains: paginationModel.search } },
+          { email: { contains: paginationModel.search } },
+        ],
       },
     });
   }
@@ -53,6 +54,14 @@ class PrismaUserRepository implements UserRepositoryInterface {
 
   async count(): Promise<number> {
     return await prismaClient.user.count();
+  }
+
+  getByModel(data: Partial<User>): Promise<User | null> {
+    return prismaClient.user.findFirst({
+      where: {
+        OR: [data],
+      },
+    });
   }
 }
 

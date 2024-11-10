@@ -3,18 +3,15 @@ import UserService from '@/services/user/userService';
 import UserServiceInterface from '@/services/user/userServiceInterface';
 import UserBusinessInterface from './userBusinessInterface';
 import User from '@/models/user/user/userModel';
+import PaginationModel from '@/models/pagination/paginationModel';
 
 @injectable()
 class UserBusiness implements UserBusinessInterface {
   constructor(
     @inject('UserServiceInterface') private userService: UserServiceInterface,
   ) {}
-  findAllWithPagination(
-    page: number,
-    limit: number,
-    search: string,
-  ): Promise<any> {
-    return this.userService.findAllWithPagination(page, limit, search);
+  findAllWithPagination(paginationModel: PaginationModel): Promise<any> {
+    return this.userService.findAllWithPagination(paginationModel);
   }
   addUser(user: User): Promise<Partial<User>> {
     return this.userService.addUsers(user);

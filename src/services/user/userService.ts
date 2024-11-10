@@ -1,8 +1,11 @@
 import { inject, injectable } from 'inversify';
 import User from '../../models/user/user/userModel';
 import UserServiceInterface from './userServiceInterface';
-import PaginationResponse from '@/models/Response/PaginationResponseModel';
+import PaginationResponse from '@/models/response/paginationResponseModel';
 import UserRepositoryInterface from '@/repository/user/userRepositoryInterface';
+import AuthenticationProvider from '@/providers/authentication/authenticationProvider';
+import { enumBusinessError } from '@/Error/error';
+import PaginationModel from '@/models/pagination/paginationModel';
 
 @injectable()
 class UserService implements UserServiceInterface {
@@ -12,15 +15,10 @@ class UserService implements UserServiceInterface {
   ) {}
 
   async findAllWithPagination(
-    page: number,
-    limit: number,
-    search: string = '',
+    paginationModel: PaginationModel,
   ): Promise<PaginationResponse<User>> {
-    const users = await this.userRepository.findAllWithPagination(
-      page,
-      limit,
-      search,
-    );
+    const users =
+      await this.userRepository.findAllWithPagination(paginationModel);
     const totalUsers = await this.userRepository.count();
 
     const paginationResponse: PaginationResponse<User> = {
