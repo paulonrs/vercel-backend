@@ -10,7 +10,8 @@ import { returnStatus } from '@/helpers/api_retorn';
 @injectable()
 class UserController extends BaseController implements UserControllerInterface {
   constructor(
-    @inject(UserBusiness) private userBusiness: UserBusinessInterface,
+    @inject('UserBusinessInterface')
+    private userBusiness: UserBusinessInterface,
   ) {
     super();
   }

@@ -3,12 +3,11 @@ import User from '../../models/user/user/userModel';
 import UserServiceInterface from './userServiceInterface';
 import PaginationResponse from '@/models/Response/PaginationResponseModel';
 import UserRepositoryInterface from '@/repository/user/userRepositoryInterface';
-import PrismaUserRepository from '@/repository/user/prismaUserRepository';
 
 @injectable()
 class UserService implements UserServiceInterface {
   constructor(
-    @inject(PrismaUserRepository)
+    @inject('UserRepositoryInterface')
     private userRepository: UserRepositoryInterface,
   ) {}
 

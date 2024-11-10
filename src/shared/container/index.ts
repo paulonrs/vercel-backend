@@ -5,15 +5,36 @@ import UserBusiness from '@/business/user/userBusiness';
 import UserServiceInterface from '@/services/user/userServiceInterface';
 import UserBusinessInterface from '@/business/user/userBusinessInterface';
 import UserControllerInterface from '@/controllers/user/userControllerInterface';
-import PrismaUserRepository from '@/repository/user/prismaUserRepository';
 import UserRepositoryInterface from '@/repository/user/userRepositoryInterface';
+import PrismaUserRepository from '@/repository/user/PrismaUserRepository';
 
-const container = new Container();
-container.bind<UserControllerInterface>(UserController).to(UserController);
-container.bind<UserBusinessInterface>(UserBusiness).to(UserBusiness);
-container.bind<UserServiceInterface>(UserService).to(UserService);
-container
-  .bind<UserRepositoryInterface>(PrismaUserRepository)
-  .to(PrismaUserRepository);
+export class DiContainer {
+  private container: Container;
 
-export { container };
+  constructor() {
+    this.container = new Container();
+    this.configureContainer();
+  }
+
+  public getContainer(): Container {
+    if (!this.container) {
+      this.container = new Container();
+    }
+    return this.container;
+  }
+
+  private configureContainer(): void {
+    this.container
+      .bind<UserControllerInterface>('UserControllerInterface')
+      .to(UserController);
+    this.container
+      .bind<UserBusinessInterface>('UserBusinessInterface')
+      .to(UserBusiness);
+    this.container
+      .bind<UserServiceInterface>('UserServiceInterface')
+      .to(UserService);
+    this.container
+      .bind<UserRepositoryInterface>('UserRepositoryInterface')
+      .to(PrismaUserRepository);
+  }
+}

@@ -82,6 +82,7 @@ interface ControllerInterface{
   funcao2();
 }
 
+@injectable()
 class Controller implement ControllerInterface {
   funca1() {
     ...
@@ -91,6 +92,14 @@ class Controller implement ControllerInterface {
     ...
   }
 }
+```
+
+Para configurar a injeção de dependência acesse `src\shared\container\index.ts` nesse arquivo deve ser adicionado qual sua classe e qual sua interface
+
+```typescript
+this.container
+  .bind<UserControllerInterface>('UserControllerInterface')
+  .to(UserController);
 ```
 
 Seguir este padrão para toda a estrutura que possui classes, mesmo em projetos menores, pode não trazer muitas vantagens imediatas. No entanto, é uma boa prática, pois facilita a implementação de testes no futuro e torna o código mais flexível. Por exemplo, se for necessário criar uma nova repository ao mudar o banco de dados, essa abordagem torna o processo mais prático e **seguro**.

@@ -6,7 +6,9 @@ import User from '@/models/user/user/userModel';
 
 @injectable()
 class UserBusiness implements UserBusinessInterface {
-  constructor(@inject(UserService) private userService: UserServiceInterface) {}
+  constructor(
+    @inject('UserServiceInterface') private userService: UserServiceInterface,
+  ) {}
   findAllWithPagination(
     page: number,
     limit: number,

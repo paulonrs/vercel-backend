@@ -1,9 +1,12 @@
 import express from 'express';
-import UserController from '../controllers/user/userController';
-import { container } from '../shared/container';
+import { DiContainer } from '@/shared/container';
+import UserControllerInterface from '@/controllers/user/userControllerInterface';
 
 const router = express.Router();
-const userController = container.resolve(UserController);
+const container = new DiContainer().getContainer();
+const userController = container.get<UserControllerInterface>(
+  'UserControllerInterface',
+);
 
 router.get('/', userController.getAllUsers);
 router.post('/', userController.addUsers);
